@@ -1,39 +1,51 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
+import { MagnifyingGlassIcon,UserCircleIcon } from '@heroicons/react/16/solid'
 import Avatar from 'react-avatar'
 
 function Header() {
-  return (
-    <header>
-        <div className='flex flex-col md:flex-row items-center p-5 bg-gray-500/10'>
-        <Image
-         src="https://links.papareact.com/c2cdd5"
-         alt ="trello logo"
-         width={300}
-         height={100}
-         className='w-44 md:w-56 pb-10 md:pb-0 object-contain'
-         />
+    return (
+        <header>
+            <div className='flex flex-col md:flex-row items-center p-5 bg-gray-500/10'>
+                <div className='absolute top-0 left-0 w-full h-96
+                                 bg-gradient-to-br from-pink-400 to-blue-500
+                                 filter blur-3xl -z-50 opacity-60'/>
+                {/* Trello image */}
+                <Image
+                    src="https://links.papareact.com/c2cdd5"
+                    alt="trello logo"
+                    width={300}
+                    height={100}
+                    className='w-44 md:w-56 pb-10 md:pb-0 object-contain'
+                />
 
-        <div className='flex items-center space-x-2 flex-1 justify-end'>
-        {/* Search */}
-         <form className='flex items-center space-x-5 bg-white rounded-md shadow-md 
+                <div className='flex items-center space-x-2 flex-1 justify-end w-full'>
+                    {/* Search */}
+                    <form className='flex items-center space-x-5 bg-white rounded-md shadow-md flex-1 md:flex-initial
                         p-2'>
-            <MagnifyingGlassIcon className='w-6 h-6 text-gray-400' />
-            <input type='text' placeholder="Search" className='flex-1 outline-none p-2 md:flex-initial'/>
-            <button type='submit' hidden/>
+                        <MagnifyingGlassIcon className='w-6 h-6 text-gray-400' />
+                        <input type='text' placeholder="Search" className='flex-1 outline-none p-2' />
+                        <button type='submit' hidden />
 
-         </form>
+                    </form>
 
-         {/* Avatar */}
-         <Avatar name="Sandhya Sankaran" round size="50"/>
-        </div>
-         
-         </div>
-    </header>
-    
-  )
+                    {/* Avatar */}
+                    <Avatar name="Sandhya Sankaran" round size="50" />
+                </div>
+            </div>
+
+            <div className='flex justify-center p-2 md:py-6'>
+                <p className='flex items-center  p-5 shadow-xl bg-white rounded-md font-light
+                              text-blue-600 w-fit max-w-3xl italic'>
+                    <UserCircleIcon className='h-10 w-10 text-blue-500 mr-2 '/>
+                     summarized content will be added later.... summarized content will be added later....
+                     summarized content will be added later....
+                </p>
+            </div>
+        </header>
+
+    )
 }
 
 export default Header
