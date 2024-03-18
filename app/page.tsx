@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Board from "@/components/Board";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <Header/>
 
       {/* Board component */}
+      <Board/>
     </main>
   );
 }
