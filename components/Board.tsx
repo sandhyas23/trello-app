@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useBoardStore } from '@/store/BoardStore';
-import { DragDropContext,Droppable } from 'react-beautiful-dnd';
+import { DragDropContext,Droppable } from '@hello-pangea/dnd';
 import Column from './Column';
 
 function Board() {
@@ -29,8 +29,10 @@ function Board() {
                 <div
                 {...provided.droppableProps}
                   ref={provided.innerRef}
+                  className='grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto '
                   >
                     {Array.from(board.columns.entries()).map((value,index,arr)=> (
+                      
                       <Column key={value[0]} id={value[0]} todos={value[1].todos} index={index}/>
                     ))}
                   </div>
