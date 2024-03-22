@@ -12,7 +12,7 @@ export const useBoardStore = create<BoardState>((set) => ({
   },
   getBoard: async() => {
     const board = await getTodosGroupedByColumn();
-    console.log("bb",board);
+   // console.log("bb",board);
     set({board})
   }
 }))
