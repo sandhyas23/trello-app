@@ -6,7 +6,8 @@ import Column from './Column';
 
 function Board() {
 
-  const [board, getBoard] = useBoardStore((state) => [state.board,state.getBoard])
+  const [board, getBoard,setBoardState] = useBoardStore((state) => 
+                             [state.board,state.getBoard,state.setBoardState])
   useEffect(()=>{
     //get board info
     getBoard();
@@ -18,11 +19,27 @@ function Board() {
     console.log(destination);
     console.log(source);
     console.log(type);
-  
+
+    if(!destination) return;
+
+    if(type === 'column'){
+      const entries = Array.from(board.columns.entries());
+     const [removed] = entries.splice(source.index,1);
+     console.log("removed",removed);
+     entries.splice(destination.index,0,removed);
+     const rearrangedColumns = new Map(entries);
+
+     console.log("entries",rearrangedColumns);
+
+     setBoardState({...board,columns:rearrangedColumns})
+    
+
+
+    }  
   }
 
-//  console.log(board);
-//  {console.log(Array.from(board.columns.entries()))}
+ console.log(board);
+ {console.log(Array.from(board.columns.entries()))}
   return (
     <div>
         <DragDropContext onDragEnd={handleOnDragEnd}>
