@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useBoardStore } from '@/store/BoardStore';
-import { DragDropContext,Droppable } from '@hello-pangea/dnd';
+import { DragDropContext,DropResult,Droppable } from '@hello-pangea/dnd';
 import Column from './Column';
 
 function Board() {
@@ -14,13 +14,15 @@ function Board() {
   },[getBoard])
 
   const handleOnDragEnd = (result: DropResult) =>{
-    
+    const {destination,source,type} = result;
+    console.log(destination);
+    console.log(source);
+    console.log(type);
+  
   }
 
-  
-
- console.log(board);
- {console.log(Array.from(board.columns.entries()))}
+//  console.log(board);
+//  {console.log(Array.from(board.columns.entries()))}
   return (
     <div>
         <DragDropContext onDragEnd={handleOnDragEnd}>
