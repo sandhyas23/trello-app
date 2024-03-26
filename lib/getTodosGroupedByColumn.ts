@@ -21,15 +21,24 @@ export const getTodosGroupedByColumn = async() =>{
             columns.set(item.status,{id:item.status,todos:todosArry})
     })
 
-    
+    //always show the 3 columns
     const columnTypes: TypedColumn[] = ["todo","inprogress","done"];
     for(const columnType of columnTypes){
         if(!columns.get(columnType)){
             columns.set(columnType,{id:columnType,todos:[]});
         }
     }
+    //always show todo,inprogress and done in same order
 
-    return {columns:columns};
+    const sortedColumns = new Map(
+        Array.from(columns.entries()).sort((a,b) => (
+            columnTypes.indexOf(a[0]) - columnTypes.indexOf(b[0])
+            )
+        )
+        )
+
+
+    return {columns:sortedColumns};
 
 
 }
