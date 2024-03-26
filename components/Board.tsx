@@ -6,8 +6,8 @@ import Column from './Column';
 
 function Board() {
 
-  const [board, getBoard,setBoardState] = useBoardStore((state) => 
-                             [state.board,state.getBoard,state.setBoardState])
+  const [board, getBoard,setBoardState,updateToDoInDB] = useBoardStore((state) => 
+                             [state.board,state.getBoard,state.setBoardState,state.updateToDoInDB])
   useEffect(()=>{
     //get board info
     getBoard();
@@ -33,9 +33,33 @@ function Board() {
 
      setBoardState({...board,columns:rearrangedColumns})
     
-
-
     }  
+    else if(type === 'card'){
+      const entries = Array.from(board.columns.entries());
+      const sourceDroppableId = Number(source.droppableId);
+      const sourceIndex = source.index;
+      const destinationDropabbleId = Number(destination.droppableId);
+      const destinationIndex = destination.index;
+
+      const[removed] = entries[sourceDroppableId][1].todos.splice(sourceIndex,1);
+      entries[destinationDropabbleId][1].todos.splice(destinationIndex,0,removed);
+
+      console.log("removed",removed);
+
+      const rearrangedColumns = new Map(entries);
+
+      //update in db
+
+      updateToDoInDB(removed,entries[destinationDropabbleId][0]);
+
+
+
+      setBoardState({...board,columns:rearrangedColumns});
+
+      console.log("doing it now",entries);
+
+    }
+    
   }
 
  console.log(board);
