@@ -16,20 +16,20 @@ function Board() {
 
   const handleOnDragEnd = (result: DropResult) =>{
     const {destination,source,type} = result;
-    console.log(destination);
-    console.log(source);
-    console.log(type);
+    //console.log(destination);
+    //console.log(source);
+    //console.log(type);
 
     if(!destination) return;
 
     if(type === 'column'){
       const entries = Array.from(board.columns.entries());
      const [removed] = entries.splice(source.index,1);
-     console.log("removed",removed);
+     //console.log("removed",removed);
      entries.splice(destination.index,0,removed);
      const rearrangedColumns = new Map(entries);
 
-     console.log("entries",rearrangedColumns);
+     //console.log("entries",rearrangedColumns);
 
      setBoardState({...board,columns:rearrangedColumns})
     
@@ -44,7 +44,7 @@ function Board() {
       const[removed] = entries[sourceDroppableId][1].todos.splice(sourceIndex,1);
       entries[destinationDropabbleId][1].todos.splice(destinationIndex,0,removed);
 
-      console.log("removed",removed);
+      //console.log("removed",removed);
 
       const rearrangedColumns = new Map(entries);
 
@@ -56,14 +56,14 @@ function Board() {
 
       setBoardState({...board,columns:rearrangedColumns});
 
-      console.log("doing it now",entries);
+      //console.log("doing it now",entries);
 
     }
     
   }
 
- console.log(board);
- {console.log(Array.from(board.columns.entries()))}
+ //console.log(board);
+ //{console.log(Array.from(board.columns.entries()))}
   return (
     <div>
         <DragDropContext onDragEnd={handleOnDragEnd}>

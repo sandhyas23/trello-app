@@ -2,6 +2,7 @@ import React from 'react'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import TodoCard from './TodoCard'
 import { PlusCircleIcon } from '@heroicons/react/16/solid'
+import { useBoardStore } from '@/store/BoardStore'
 
 type Props = {
     id: TypedColumn;
@@ -20,6 +21,8 @@ const idToText : {
 
 function Column({id,todos,index}: Props) {
     //console.log("in column",id,todos);
+    const [searchString, setSearchString] = 
+                useBoardStore((state) => [state.searchString, state.setSearchString])
   return (
     <Draggable draggableId={id} index={index}>
         {(provided) => (
@@ -38,11 +41,13 @@ function Column({id,todos,index}: Props) {
                             <h2 className='flex text-lg font-bold justify-between items-center'>
                                 {idToText[id]}
                                 <span className=' text-gray-400 bg-gray-200 rounded-lg text-sm p-2'>
-                                {todos.length}
+                                {(todos.filter((todo)=> todo.title.toLowerCase().includes(searchString.toLowerCase()))).length}
                             </span>
                             </h2>
                             <div>
                                 {todos.map((todo,index,arr) => {
+                                    //search todos
+                                    if(!todo.title.toLocaleLowerCase().includes(searchString.toLowerCase())) return null;
                                     return <Draggable key={todo.$id} draggableId={todo.$id} index={index}>
                                         {(provided) => (
                                             <TodoCard
