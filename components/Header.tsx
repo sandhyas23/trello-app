@@ -1,15 +1,20 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { MagnifyingGlassIcon,UserCircleIcon } from '@heroicons/react/16/solid'
 import Avatar from 'react-avatar'
 import { useBoardStore } from '@/store/BoardStore'
 
 function Header() {
-    const[searchString,setSearchString] = useBoardStore((state) => 
-                     [state.searchString,state.setSearchString])
+    const[board,searchString,setSearchString] = useBoardStore((state) => 
+                     [state.board,state.searchString,state.setSearchString])
  
-    console.log("search",searchString)
+    //console.log("search",searchString)
+
+    useEffect(()=>{
+        
+
+    },[board])
 
     return (
         <header>
