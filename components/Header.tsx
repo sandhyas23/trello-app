@@ -1,20 +1,36 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { MagnifyingGlassIcon,UserCircleIcon } from '@heroicons/react/16/solid'
 import Avatar from 'react-avatar'
 import { useBoardStore } from '@/store/BoardStore'
+import { fetchSuggestion } from '@/lib/fetchSuggestion'
 
 function Header() {
     const[board,searchString,setSearchString] = useBoardStore((state) => 
                      [state.board,state.searchString,state.setSearchString])
  
     //console.log("search",searchString)
+    const [loading, setLoading] = useState<boolean>(false);
+    const [suggestion, setSuggestion] = useState<string>("");
+
 
     useEffect(()=>{
-        
+        if(board.columns.size === 0) return;
+        setLoading(true);
+
+        const fetchSuggestionFunc = async() =>{
+            const suggestion = await fetchSuggestion(board);
+            setSuggestion(suggestion);
+            setLoading(false);
+        }
+
+        fetchSuggestionFunc();
+
 
     },[board])
+
+
 
     return (
         <header>
@@ -54,8 +70,7 @@ function Header() {
                 <p className='flex items-center  p-5 shadow-xl bg-white rounded-md font-light
                               text-blue-600 w-fit max-w-3xl italic'>
                     <UserCircleIcon className='h-10 w-10 text-blue-500 mr-2 '/>
-                     summarized content will be added later.... summarized content will be added later....
-                     summarized content will be added later....
+                     {suggestion && !loading ? suggestion : "GPT is summarising your tasks for the day"}
                 </p>
             </div>
         </header>
