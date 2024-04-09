@@ -3,6 +3,8 @@ import { Draggable, Droppable } from '@hello-pangea/dnd'
 import TodoCard from './TodoCard'
 import { PlusCircleIcon } from '@heroicons/react/16/solid'
 import { useBoardStore } from '@/store/BoardStore'
+import { useModalStore } from '@/store/ModalStore'
+
 
 type Props = {
     id: TypedColumn;
@@ -23,6 +25,8 @@ function Column({id,todos,index}: Props) {
     //console.log("in column",id,todos);
     const [searchString, setSearchString] = 
                 useBoardStore((state) => [state.searchString, state.setSearchString])
+
+    const [openModal] = useModalStore ((state) => [state.openModal]);
   return (
     <Draggable draggableId={id} index={index}>
         {(provided) => (
@@ -66,7 +70,7 @@ function Column({id,todos,index}: Props) {
 
                                 {/* button to add todo */}
                                 <div className='flex justify-end p-2 m-2'>
-                                    <button className='text-green-500 hover:text-green-600'>
+                                    <button onClick={openModal} className='text-green-500 hover:text-green-600'>
                                         <PlusCircleIcon className='h-10 w-10'/>
                                     </button>
                                 </div>
