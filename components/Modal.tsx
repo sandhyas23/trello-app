@@ -1,14 +1,23 @@
 'use client'
-import { Fragment } from 'react'
+import { Fragment, useRef } from 'react'
 import { useModalStore } from '@/store/ModalStore'
 import { Dialog, Transition } from '@headlessui/react'
 import { useBoardStore } from '@/store/BoardStore'
 import RadioGroupTask from './RadioGroupTask'
+import Image from 'next/image'
+import { PhotoIcon } from '@heroicons/react/16/solid'
 
 function Modal() {
+  const imagePickerRef = useRef<HTMLInputElement>(null);
+  
     
   const [isOpen,closeModal] = useModalStore((state) => [state.isOpen,state.closeModal])
-  const [newTaskInput,setNewTaskInput] = useBoardStore((state) => [state.newTaskInput, state.setNewTaskInput])
+  const [newTaskInput,setNewTaskInput,image,setImage] = useBoardStore((state) => 
+                 [state.newTaskInput, state.setNewTaskInput, state.image, state.setImage])
+
+  const handleSubmit = (e) =>{
+   
+  }
 
   return (
     // Use the `Transition` component at the root level
@@ -16,7 +25,8 @@ function Modal() {
       <Dialog 
            as="form"
            className="relative z-10"
-          onClose={closeModal}>
+           onClose={closeModal}
+           onSubmit={e => handleSubmit}>
 
         <Transition.Child
             as={Fragment}
@@ -59,8 +69,52 @@ function Modal() {
                     placeholder='Enter a new task'
                     className='w-full border rounded-md outline-none p-5'/>
                   </div>
-
+                  {/* Radio group for type of task */}
                   <RadioGroupTask/>
+
+                  {/* Add image */}
+                  <div>
+                    <button
+                       type="button"
+                       onClick={() => {imagePickerRef.current?.click()}}
+                       className='w-full border border-gray-300 rounded-md outline-none p-5 focus-visible:ring-2
+                                 focus-visible:ring-blue-500'>
+                        <PhotoIcon className='h-6 w-6 mr-2 inline-block'/>
+                        Upload Image
+
+                    </button>
+                    {image && (
+                      <Image
+                          alt="Uploaded image"
+                          width={200}
+                          height={200}
+                          className="w-full h-44 cursor-not-allowed mt-2 filter hover:grayscale transition-all"
+                          src={URL.createObjectURL(image)}
+                          onClick={() =>{
+                            setImage(null);
+                          }}
+                      />
+                    )}
+                    <input
+                    type='file'
+                    ref={imagePickerRef}
+                    hidden
+                    onChange={e => {
+                      if(!e.target.files![0].type.startsWith("image/")) return;
+                      setImage(e.target.files![0]);
+                    }}/>
+                  </div>
+
+                  <div>
+                    <button 
+                      type='submit'
+                      disabled={!newTaskInput}
+                      className=' justify-center inline-flex rounded-md border mt-2 px-4 py-2
+                       text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none disabled:cursor-not-allowed
+                       disabled:text-gray-300 disabled:bg-gray-100 '>
+                      Add Task
+                    </button>
+                  </div>
 
                 </Dialog.Panel>
              </Transition.Child>
