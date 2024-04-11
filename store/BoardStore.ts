@@ -23,6 +23,7 @@ interface BoardState {
   setImage: (image: File | null) => void;
 
   addTask: (todo: string, columnId: TypedColumn, image?: File | null) => void;
+  deleteTask: (taskId:string,columnId: TypedColumn, taskIndex:number) => void;
 
 
 
@@ -94,6 +95,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     );
 
     set({ newTaskInput: "" });
+    set({newTaskType:"todo"});
 
     set((state) => {
       const newColumns = new Map(state.board.columns);
@@ -118,5 +120,23 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       }
       return { board: { columns: newColumns } }
     })
+  },
+
+  deleteTask: async(taskId,columnId, taskIndex) => {
+      await databases.deleteDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
+      taskId
+    )
+
+    set(state => {
+      const newColumns = new Map(state.board.columns);
+
+      //const column = newColumns.get(columnId);
+      newColumns.get(columnId)?.todos.splice(1,taskIndex);
+      return {board: {columns: newColumns}};
+    })
   }
+
+
 }))

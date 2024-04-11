@@ -17,7 +17,8 @@ function TodoCard({id,todo,index,innerRef,draggableProps,dragHandleProps} : Prop
 
   const [deleteTask] =  useBoardStore(state => [state.deleteTask])
 
-  const deleteTodo = (todo:Todo) =>{
+  const deleteTodo = () =>{
+    deleteTask(todo.$id,id,index);
     
   }
 
@@ -30,7 +31,7 @@ function TodoCard({id,todo,index,innerRef,draggableProps,dragHandleProps} : Prop
 
        <h1 className='flex p-2 justify-between items-center'>
           <p>{todo.title}</p> 
-          <button  onClick={deleteTodo(todo)} className='text-red-500 hover:text-red-600'>
+          <button  onClick={() => deleteTodo()} className='text-red-500 hover:text-red-600'>
            <XCircleIcon className='h-8 w-8'/>
        </button>
        </h1> 
