@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useRef } from 'react'
+import { FormEvent, Fragment, useRef } from 'react'
 import { useModalStore } from '@/store/ModalStore'
 import { Dialog, Transition } from '@headlessui/react'
 import { useBoardStore } from '@/store/BoardStore'
@@ -12,11 +12,22 @@ function Modal() {
   
     
   const [isOpen,closeModal] = useModalStore((state) => [state.isOpen,state.closeModal])
-  const [newTaskInput,setNewTaskInput,image,setImage] = useBoardStore((state) => 
-                 [state.newTaskInput, state.setNewTaskInput, state.image, state.setImage])
+  const [addTask,newTaskInput,newTaskType,setNewTaskInput,image,setImage] = 
+    useBoardStore((state) => [
+      state.addTask,
+      state.newTaskInput,
+      state.newTaskType, 
+      state.setNewTaskInput,
+      state.image, 
+      state.setImage])
 
-  const handleSubmit = (e) =>{
-   
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) =>{
+     e.preventDefault();
+     if(!newTaskInput) return;
+
+     addTask(newTaskInput,newTaskType,image);
+     setImage(null);
+     closeModal();
   }
 
   return (
@@ -26,7 +37,7 @@ function Modal() {
            as="form"
            className="relative z-10"
            onClose={closeModal}
-           onSubmit={e => handleSubmit}>
+           onSubmit={ handleSubmit}>
 
         <Transition.Child
             as={Fragment}
