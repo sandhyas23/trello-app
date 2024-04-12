@@ -25,10 +25,12 @@ function Header() {
             setLoading(false);
         }
 
-        //fetchSuggestionFunc();
+        fetchSuggestionFunc();
 
 
     },[board])
+
+    //console.log("suggestion",suggestion);
 
 
 
@@ -69,7 +71,8 @@ function Header() {
             <div className='flex justify-center p-2 md:py-6'>
                 <p className='flex items-center  p-5 shadow-xl bg-white rounded-md font-light
                               text-blue-600 w-fit max-w-3xl italic'>
-                    <UserCircleIcon className='h-10 w-10 text-blue-500 mr-2 '/>
+                    <UserCircleIcon className={`online-block h-10 w-10 text-blue-500 mr-2
+                                        ${loading && "animate-spin"}`} />
                      {suggestion && !loading ? suggestion : "GPT is summarising your tasks for the day"}
                 </p>
             </div>

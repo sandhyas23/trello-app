@@ -15,10 +15,10 @@ export const fetchSuggestion = async(board:Board) => {
     });
 
     const GPTdata = await res.json();
-    const {suggestion} = GPTdata;
+    const {content} = GPTdata;
 
-    console.log(suggestion);
+    //console.log("ggggggggg",GPTdata);
 
-    return suggestion;
+    return content;
 
 }
