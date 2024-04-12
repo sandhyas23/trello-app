@@ -8,5 +8,5 @@ export const uploadImage = async(file:File) => {
         ID.unique(),
         file
     );
-    return fileUploaded
+    return fileUploaded;
 }

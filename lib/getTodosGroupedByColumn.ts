@@ -16,7 +16,7 @@ export const getTodosGroupedByColumn = async() =>{
         }
             let todosArry = columns.get(item.status)!.todos;
             todosArry.push({$id: item.$id, $createdAt:item.$createdAt,title:item.title,status:item.status,
-            ...(item.image && {image:item.image})});
+            ...(item.image && {image:JSON.parse(item.image)})});
 
             columns.set(item.status,{id:item.status,todos:todosArry})
     })

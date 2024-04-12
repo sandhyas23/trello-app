@@ -66,13 +66,14 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   image: null,
   setImage: (image: File | null) => set({ image }),
 
-  addTask: async (todo: string, columnId: TypedColumn, image: File | null | undefined) => {
+  addTask: async (todo: string, columnId: TypedColumn, image?: File | null) => {
     //console.log("hi");
     let file: Image | undefined;
 
     if (image) {
       const fileUploaded = await uploadImage(image);
       if (fileUploaded) {
+        //console.log("file uploaded", fileUploaded);
         file = {
           bucketId: fileUploaded.bucketId,
           fileId: fileUploaded.$id
@@ -95,7 +96,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     );
 
     set({ newTaskInput: "" });
-    set({newTaskType:"todo"});
 
     set((state) => {
       const newColumns = new Map(state.board.columns);
@@ -106,7 +106,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         title: todo,
         status: columnId,
         ...(file && { image: file }),
-      }
+      };
 
       const column = newColumns.get(columnId);
       if (!column) {
@@ -133,7 +133,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       const newColumns = new Map(state.board.columns);
 
       //const column = newColumns.get(columnId);
-      newColumns.get(columnId)?.todos.splice(1,taskIndex);
+      newColumns.get(columnId)?.todos.splice(taskIndex,1);
       return {board: {columns: newColumns}};
     })
   }

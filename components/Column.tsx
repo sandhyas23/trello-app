@@ -23,10 +23,15 @@ const idToText : {
 
 function Column({id,todos,index}: Props) {
     //console.log("in column",id,todos);
-    const [searchString, setSearchString] = 
-                useBoardStore((state) => [state.searchString, state.setSearchString])
+    const [searchString, setSearchString,newTaskType,setNewTaskType] = 
+                useBoardStore((state) => [state.searchString, state.setSearchString, state.newTaskType, state.setNewTaskType])
 
     const [openModal] = useModalStore ((state) => [state.openModal]);
+
+    const handleAddTodo = () =>{
+        setNewTaskType(id);
+        openModal()
+    }
   return (
     <Draggable draggableId={id} index={index}>
         {(provided) => (
@@ -70,12 +75,11 @@ function Column({id,todos,index}: Props) {
 
                                 {/* button to add todo */}
                                 <div className='flex justify-end p-2 m-2'>
-                                    <button onClick={openModal} className='text-green-500 hover:text-green-600'>
+                                    <button onClick={handleAddTodo} className='text-green-500 hover:text-green-600'>
                                         <PlusCircleIcon className='h-10 w-10'/>
                                     </button>
                                 </div>
 
-                                {/* ADD image later */}
                             </div>  
                         </div>
                     )}

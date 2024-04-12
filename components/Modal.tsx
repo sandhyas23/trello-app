@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent, Fragment, useRef } from 'react'
+import {  FormEvent, Fragment, useRef } from 'react'
 import { useModalStore } from '@/store/ModalStore'
 import { Dialog, Transition } from '@headlessui/react'
 import { useBoardStore } from '@/store/BoardStore'
@@ -21,11 +21,11 @@ function Modal() {
       state.image, 
       state.setImage])
 
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) =>{
+  const handleSubmit = (e:FormEvent) =>{
      e.preventDefault();
      if(!newTaskInput) return;
 
-     addTask(newTaskInput,newTaskType,image);
+     addTask(newTaskInput,newTaskType, image);
      setImage(null);
      closeModal();
   }
@@ -110,7 +110,7 @@ function Modal() {
                     type='file'
                     ref={imagePickerRef}
                     hidden
-                    onChange={e => {
+                    onChange={(e) => {
                       if(!e.target.files![0].type.startsWith("image/")) return;
                       setImage(e.target.files![0]);
                     }}/>
